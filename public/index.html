@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+openapi-publix-crm.onrender.com<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -89,8 +89,11 @@
     .tier-Gold     { background: var(--amber-lt); color: #92400e; }
     .tier-Platinum { background: var(--purple-lt); color: var(--purple); }
     .cust-name  { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
-    .cust-email { font-size: 11px; color: var(--muted); margin-bottom: 10px; }
-    .cust-stats { display: flex; gap: 12px; }
+    .cust-email { font-size: 11px; color: var(--muted); margin-bottom: 8px; }
+    .cust-meta  { margin-bottom: 10px; display: flex; flex-direction: column; gap: 3px; }
+    .cust-meta-row { font-size: 11px; color: var(--muted); display: flex; align-items: flex-start; gap: 5px; line-height: 1.45; }
+    .cust-meta-row i { font-size: 12px; flex-shrink: 0; margin-top: 1px; color: var(--green); }
+    .cust-stats { display: flex; gap: 12px; border-top: 0.5px solid var(--border); padding-top: 10px; }
     .cust-stat  { font-size: 11px; color: var(--muted); }
     .cust-stat strong { color: var(--text); font-weight: 600; display: block; font-size: 13px; }
 
@@ -317,6 +320,11 @@
       <div class="cust-header"><span class="cust-id">CUS-001</span><span class="tier-badge tier-Gold">Gold</span></div>
       <div class="cust-name">Maria Gonzalez</div>
       <div class="cust-email">maria.gonzalez@email.com</div>
+      <div class="cust-meta">
+        <div class="cust-meta-row"><i class="ti ti-phone"></i> (786) 304-8821 &nbsp;·&nbsp; (786) 512-3394</div>
+        <div class="cust-meta-row"><i class="ti ti-cake"></i> June 14, 1988</div>
+        <div class="cust-meta-row"><i class="ti ti-map-pin"></i> 245 Brickell Ave, Apt 18B, Miami FL 33129</div>
+      </div>
       <div class="cust-stats">
         <div class="cust-stat"><strong>4,750</strong>Points</div>
         <div class="cust-stat"><strong>$75.17</strong>Spent</div>
@@ -328,6 +336,11 @@
       <div class="cust-header"><span class="cust-id">CUS-002</span><span class="tier-badge tier-Platinum">Platinum</span></div>
       <div class="cust-name">James Whitfield</div>
       <div class="cust-email">j.whitfield@email.com</div>
+      <div class="cust-meta">
+        <div class="cust-meta-row"><i class="ti ti-phone"></i> (404) 871-2256 &nbsp;·&nbsp; (404) 993-7741</div>
+        <div class="cust-meta-row"><i class="ti ti-cake"></i> November 3, 1975</div>
+        <div class="cust-meta-row"><i class="ti ti-map-pin"></i> 3310 Peachtree Rd NE, Unit 4A, Atlanta GA 30326</div>
+      </div>
       <div class="cust-stats">
         <div class="cust-stat"><strong>9,820</strong>Points</div>
         <div class="cust-stat"><strong>$175.94</strong>Spent</div>
@@ -339,6 +352,11 @@
       <div class="cust-header"><span class="cust-id">CUS-003</span><span class="tier-badge tier-Silver">Silver</span></div>
       <div class="cust-name">Priya Nair</div>
       <div class="cust-email">priya.nair@email.com</div>
+      <div class="cust-meta">
+        <div class="cust-meta-row"><i class="ti ti-phone"></i> (305) 446-9012 &nbsp;·&nbsp; (305) 781-6623</div>
+        <div class="cust-meta-row"><i class="ti ti-cake"></i> March 27, 1994</div>
+        <div class="cust-meta-row"><i class="ti ti-map-pin"></i> 88 Coral Way, Suite 202, Coral Gables FL 33133</div>
+      </div>
       <div class="cust-stats">
         <div class="cust-stat"><strong>1,230</strong>Points</div>
         <div class="cust-stat"><strong>$30.07</strong>Spent</div>
@@ -350,6 +368,11 @@
       <div class="cust-header"><span class="cust-id">CUS-004</span><span class="tier-badge tier-Green">Green</span></div>
       <div class="cust-name">Derek Fontaine</div>
       <div class="cust-email">derek.fontaine@email.com</div>
+      <div class="cust-meta">
+        <div class="cust-meta-row"><i class="ti ti-phone"></i> (786) 230-5587 &nbsp;·&nbsp; (786) 904-1132</div>
+        <div class="cust-meta-row"><i class="ti ti-cake"></i> August 19, 2000</div>
+        <div class="cust-meta-row"><i class="ti ti-map-pin"></i> 190 NW 2nd Ave, Apt 7, Miami FL 33128</div>
+      </div>
       <div class="cust-stats">
         <div class="cust-stat"><strong>310</strong>Points</div>
         <div class="cust-stat"><strong>$35.86</strong>Spent</div>
@@ -361,6 +384,11 @@
       <div class="cust-header"><span class="cust-id">CUS-005</span><span class="tier-badge tier-Gold">Gold</span></div>
       <div class="cust-name">Angela Torres</div>
       <div class="cust-email">angela.torres@email.com</div>
+      <div class="cust-meta">
+        <div class="cust-meta-row"><i class="ti ti-phone"></i> (404) 523-6690 &nbsp;·&nbsp; (404) 817-4459</div>
+        <div class="cust-meta-row"><i class="ti ti-cake"></i> January 8, 1991</div>
+        <div class="cust-meta-row"><i class="ti ti-map-pin"></i> 650 Ponce De Leon Ave NE, Apt 3C, Atlanta GA 30308</div>
+      </div>
       <div class="cust-stats">
         <div class="cust-stat"><strong>3,410</strong>Points</div>
         <div class="cust-stat"><strong>$76.47</strong>Spent</div>
@@ -372,6 +400,11 @@
       <div class="cust-header"><span class="cust-id">CUS-006</span><span class="tier-badge tier-Silver">Silver</span></div>
       <div class="cust-name">Robert Chen</div>
       <div class="cust-email">rob.chen@email.com</div>
+      <div class="cust-meta">
+        <div class="cust-meta-row"><i class="ti ti-phone"></i> (305) 667-3318 &nbsp;·&nbsp; (305) 924-8807</div>
+        <div class="cust-meta-row"><i class="ti ti-cake"></i> September 22, 1986</div>
+        <div class="cust-meta-row"><i class="ti ti-map-pin"></i> 3401 Main Hwy, Unit 12, Coconut Grove FL 33133</div>
+      </div>
       <div class="cust-stats">
         <div class="cust-stat"><strong>1,890</strong>Points</div>
         <div class="cust-stat"><strong>$34.41</strong>Spent</div>
@@ -439,37 +472,37 @@
 
     <div class="curl-row">
       <div class="curl-lbl">Customer profile</div>
-      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://publix-crm-api.onrender.com/api/customers/profile</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"customer_id":"CUS-001"}'</span></code>
+      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://openapi-publix-crm.onrender.com/api/customers/profile</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"customer_id":"CUS-001"}'</span></code>
     </div>
 
     <div class="curl-row">
       <div class="curl-lbl">Points balance + tier info</div>
-      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://publix-crm-api.onrender.com/api/points/balance</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"customer_id":"CUS-002"}'</span></code>
+      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://openapi-publix-crm.onrender.com/api/points/balance</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"customer_id":"CUS-002"}'</span></code>
     </div>
 
     <div class="curl-row">
       <div class="curl-lbl">Earn points for purchase</div>
-      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://publix-crm-api.onrender.com/api/points/earn</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"customer_id":"CUS-001","purchase_amount":45.99}'</span></code>
+      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://openapi-publix-crm.onrender.com/api/points/earn</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"customer_id":"CUS-001","purchase_amount":45.99}'</span></code>
     </div>
 
     <div class="curl-row">
       <div class="curl-lbl">Order detail with line items</div>
-      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://publix-crm-api.onrender.com/api/orders/detail</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"order_id":"ORD-2026-0003"}'</span></code>
+      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://openapi-publix-crm.onrender.com/api/orders/detail</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"order_id":"ORD-2026-0003"}'</span></code>
     </div>
 
     <div class="curl-row">
       <div class="curl-lbl">Purchasing summary</div>
-      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://publix-crm-api.onrender.com/api/history/summary</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"customer_id":"CUS-002"}'</span></code>
+      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://openapi-publix-crm.onrender.com/api/history/summary</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"customer_id":"CUS-002"}'</span></code>
     </div>
 
     <div class="curl-row">
       <div class="curl-lbl">Spend by category</div>
-      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://publix-crm-api.onrender.com/api/history/by-category</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"customer_id":"CUS-001"}'</span></code>
+      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://openapi-publix-crm.onrender.com/api/history/by-category</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"customer_id":"CUS-001"}'</span></code>
     </div>
 
     <div class="curl-row">
       <div class="curl-lbl">Top purchased products</div>
-      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://publix-crm-api.onrender.com/api/history/top-products</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"customer_id":"CUS-002","limit":5}'</span></code>
+      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://openapi-publix-crm.onrender.com/api/history/top-products</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"customer_id":"CUS-002","limit":5}'</span></code>
     </div>
 
   </div>
