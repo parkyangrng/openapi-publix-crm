@@ -10,10 +10,10 @@ app = Flask(__name__, static_folder='public', static_url_path='')
 
 CUSTOMERS = {
     "CUS-001": {
-        "id": "CUS-001", "first_name": "Parker", "last_name": "Gonzalez",
-        "email": "parker.gonzalez@email.com",
-        "phone": "(980) 270-4363",
-        "mobile": "(301) 326-3739",
+        "id": "CUS-001", "first_name": "Maria", "last_name": "Gonzalez",
+        "email": "maria.gonzalez@email.com",
+        "phone": "(786) 304-8821",
+        "mobile": "(786) 512-3394",
         "store_id": "store_FL01", "tier": "Gold",
         "points_balance": 4750, "lifetime_points": 12340,
         "joined": "2021-03-15",
@@ -327,6 +327,31 @@ SPEC = {
                 "responses": {"200": {"description": "Matching customers"}, "400": {"description": "Query too short"}},
             }
         },
+        "/api/customers/search/phone": {
+            "post": {
+                "tags": ["Customers"], "summary": "Search by phone number",
+                "description": (
+                    "Look up a customer by phone or mobile number. "
+                    "Accepts full or partial digits — formatting characters (dashes, dots, spaces, parentheses) are stripped automatically. "
+                    "Searches both phone and mobile fields. Returns exact match on a full 10-digit number or partial matches for shorter queries."
+                ),
+                "operationId": "searchByPhone",
+                "requestBody": {
+                    "required": True,
+                    "content": {
+                        "application/json": {
+                            "schema": {"$ref": "#/components/schemas/PhoneSearchRequest"},
+                            "example": {"phone": "786-304-8821"},
+                        }
+                    },
+                },
+                "responses": {
+                    "200": {"description": "Matching customer(s) with matched_field indicating phone or mobile"},
+                    "400": {"description": "phone field missing or fewer than 4 digits provided"},
+                    "404": {"description": "No customer found for the given number"},
+                },
+            }
+        },
         "/api/points/balance": {
             "post": {
                 "tags": ["Points"], "summary": "Get points balance",
@@ -429,6 +454,21 @@ SPEC = {
                     "tier":  {"type": "string", "enum": ["Green","Silver","Gold","Platinum"]},
                     "page":  {"type": "integer", "default": 1},
                     "limit": {"type": "integer", "default": 20},
+                },
+            },
+            "PhoneSearchRequest": {
+                "type": "object", "required": ["phone"],
+                "properties": {
+                    "phone": {
+                        "type": "string",
+                        "description": "Phone or mobile number to search. Formatting characters are stripped automatically. Min 4 digits required.",
+                        "example": "786-304-8821",
+                    },
+                    "exact": {
+                        "type": "boolean",
+                        "default": False,
+                        "description": "If true, only return customers whose digits match exactly (full 10-digit match). Default is partial match.",
+                    },
                 },
             },
             "EarnPointsRequest": {
@@ -560,6 +600,50 @@ def search_customers():
     p = paginate(results, page, limit)
     p["query"] = q
     return jsonify(p)
+
+@app.route("/api/customers/search/phone", methods=["POST"])
+def search_by_phone():
+    body  = request.json or {}
+    raw   = str(body.get("phone", "")).strip()
+    exact = body.get("exact", False)
+
+    if not raw:
+        return api_err("'phone' field is required.", 400)
+
+    # strip all non-digit characters for comparison
+    digits = "".join(ch for ch in raw if ch.isdigit())
+
+    if len(digits) < 4:
+        return api_err("At least 4 digits are required to search by phone.", 400)
+
+    matches = []
+    for c in CUSTOMERS.values():
+        phone_digits  = "".join(ch for ch in c.get("phone",  "") if ch.isdigit())
+        mobile_digits = "".join(ch for ch in c.get("mobile", "") if ch.isdigit())
+
+        if exact:
+            hit_phone  = digits == phone_digits
+            hit_mobile = digits == mobile_digits
+        else:
+            hit_phone  = digits in phone_digits
+            hit_mobile = digits in mobile_digits
+
+        if hit_phone or hit_mobile:
+            result = {k: v for k, v in c.items()}
+            result["matched_field"] = "phone" if hit_phone else "mobile"
+            result["matched_number"] = c["phone"] if hit_phone else c["mobile"]
+            matches.append(result)
+
+    if not matches:
+        return api_err(f"No customer found with phone number matching '{raw}'.", 404)
+
+    return jsonify({
+        "results":      matches,
+        "count":        len(matches),
+        "query_digits": digits,
+        "exact_match":  exact,
+    })
+
 
 # ─── Routes: Points ───────────────────────────────────────────────────────────
 
