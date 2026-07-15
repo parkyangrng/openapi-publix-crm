@@ -12,8 +12,8 @@ CUSTOMERS = {
     "CUS-001": {
         "id": "CUS-001", "first_name": "Maria", "last_name": "Gonzalez",
         "email": "maria.gonzalez@email.com",
-        "phone": "(786) 304-8821",
-        "mobile": "(786) 512-3394",
+        "phone": "(301) 326-3739",
+        "mobile": "(301) 326-3739",
         "store_id": "store_FL01", "tier": "Gold",
         "points_balance": 4750, "lifetime_points": 12340,
         "joined": "2021-03-15",
@@ -314,9 +314,30 @@ SPEC = {
         "/api/customers/profile": {
             "post": {
                 "tags": ["Customers"], "summary": "Get customer profile",
+                "description": (
+                    "Retrieve a full customer profile by customer_id OR by phone/mobile number. "
+                    "Supply exactly one of customer_id or phone. "
+                    "Phone lookup strips all formatting and searches both phone and mobile fields."
+                ),
                 "operationId": "getCustomer",
-                "requestBody": {"required": True, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/CustomerIdRequest"}, "example": {"customer_id": "CUS-001"}}}},
-                "responses": {"200": {"description": "Full customer profile"}, "404": {"description": "Customer not found"}},
+                "requestBody": {
+                    "required": True,
+                    "content": {
+                        "application/json": {
+                            "schema": {"$ref": "#/components/schemas/ProfileRequest"},
+                            "examples": {
+                                "by_id":    {"summary": "By customer ID",   "value": {"customer_id": "CUS-001"}},
+                                "by_phone": {"summary": "By phone number",  "value": {"phone": "786-304-8821"}},
+                                "by_mobile":{"summary": "By mobile number", "value": {"phone": "(404) 993-7741"}},
+                            },
+                        }
+                    },
+                },
+                "responses": {
+                    "200": {"description": "Full customer profile with orders summary and tier details"},
+                    "400": {"description": "Neither customer_id nor phone was supplied"},
+                    "404": {"description": "Customer not found"},
+                },
             }
         },
         "/api/customers/search": {
@@ -436,6 +457,14 @@ SPEC = {
     "components": {
         "schemas": {
             "CustomerIdRequest": {"type": "object", "required": ["customer_id"], "properties": {"customer_id": {"type": "string", "example": "CUS-001"}}},
+            "ProfileRequest": {
+                "type": "object",
+                "description": "Supply exactly one of customer_id or phone.",
+                "properties": {
+                    "customer_id": {"type": "string", "example": "CUS-001",      "description": "Unique customer ID"},
+                    "phone":       {"type": "string", "example": "786-304-8821", "description": "Phone or mobile number — any format, min 4 digits"},
+                },
+            },
             "OrderIdRequest":    {"type": "object", "required": ["order_id"],    "properties": {"order_id":    {"type": "string", "example": "ORD-2026-0001"}}},
             "CustomersRequest": {
                 "type": "object",
@@ -567,16 +596,44 @@ def list_customers():
 
 @app.route("/api/customers/profile", methods=["POST"])
 def get_customer():
-    body = request.json or {}
-    cid  = body.get("customer_id")
-    if not cid: return api_err("customer_id is required.", 400)
-    c = CUSTOMERS.get(cid)
-    if not c:   return api_err(f"Customer '{cid}' not found.", 404)
-    orders = customer_orders(cid)
+    body  = request.json or {}
+    cid   = body.get("customer_id")
+    phone = str(body.get("phone", "")).strip()
+
+    # must supply at least one lookup key
+    if not cid and not phone:
+        return api_err("Supply either 'customer_id' or 'phone' to look up a profile.", 400)
+
+    c = None
+    lookup_method = None
+
+    if cid:
+        # primary lookup by customer ID
+        c = CUSTOMERS.get(cid)
+        lookup_method = "customer_id"
+        if not c:
+            return api_err(f"Customer '{cid}' not found.", 404)
+    else:
+        # phone lookup — strip non-digits, search both phone and mobile
+        digits = "".join(ch for ch in phone if ch.isdigit())
+        if len(digits) < 4:
+            return api_err("'phone' must contain at least 4 digits.", 400)
+        for customer in CUSTOMERS.values():
+            phone_d  = "".join(ch for ch in customer.get("phone",  "") if ch.isdigit())
+            mobile_d = "".join(ch for ch in customer.get("mobile", "") if ch.isdigit())
+            if digits in phone_d or digits in mobile_d:
+                c = customer
+                lookup_method = "phone" if digits in phone_d else "mobile"
+                break
+        if not c:
+            return api_err(f"No customer found with phone number matching '{phone}'.", 404)
+
+    orders = customer_orders(c["id"])
     result = dict(c)
     result["order_count"]  = len(orders)
     result["total_spent"]  = round(sum(o["total"] for o in orders), 2)
     result["tier_details"] = POINTS_TIERS.get(c["tier"], {})
+    result["lookup_method"] = lookup_method
     return jsonify(result)
 
 
