@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Publix CRM API</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green:    #007749;
+      --green-dk: #005c37;
+      --green-lt: #e6f2ec;
+      --amber:    #f59e0b;
+      --amber-lt: #fef3c7;
+      --blue:     #185fa5;
+      --blue-lt:  #e8f0fe;
+      --purple:   #6b2db0;
+      --purple-lt:#f3e8fd;
+      --text:     #1a1a18;
+      --muted:    #6b6b67;
+      --border:   rgba(0,0,0,0.09);
+      --surface:  #f8f8f6;
+      --card:     #ffffff;
+      --mono:     "SF Mono","Fira Code",Consolas,monospace;
+      --sans:     system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    }
+    body { font-family: var(--sans); background: var(--surface); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+
+    /* ── Header ── */
+    header { background: var(--green); padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .logo  { display: flex; align-items: center; gap: 10px; color: #fff; font-size: 18px; font-weight: 600; letter-spacing: -.01em; }
+    .logo-icon { width: 34px; height: 34px; background: #fff; border-radius: 7px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .logo-icon i { font-size: 19px; color: var(--green); }
+    .header-badges { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .hbadge { font-size: 10px; border-radius: 4px; padding: 3px 8px; font-family: var(--mono); font-weight: 500; }
+    .hbadge-post   { background: rgba(255,255,255,.95); color: var(--green); font-weight: 700; }
+    .hbadge-ver    { background: rgba(255,255,255,.18); border: 0.5px solid rgba(255,255,255,.3); color: #fff; }
+
+    /* ── Main ── */
+    main { flex: 1; max-width: 960px; margin: 0 auto; padding: 48px 24px; width: 100%; }
+
+    /* ── Hero ── */
+    .hero { text-align: center; margin-bottom: 48px; }
+    .pill { display: inline-flex; align-items: center; gap: 6px; background: var(--green-lt); border: 0.5px solid var(--green); border-radius: 20px; padding: 4px 12px; font-size: 12px; font-weight: 500; color: var(--green); margin-bottom: 18px; }
+    .pill .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+    h1 { font-size: 34px; font-weight: 600; letter-spacing: -.025em; margin-bottom: 12px; line-height: 1.15; }
+    .subtitle { font-size: 15px; color: var(--muted); line-height: 1.6; max-width: 560px; margin: 0 auto 10px; }
+    .post-note { font-size: 12px; color: var(--green); font-weight: 500; margin-bottom: 26px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+    .post-note code { font-family: var(--mono); background: var(--green-lt); padding: 1px 6px; border-radius: 3px; font-size: 11px; }
+    .cta-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; gap: 7px; padding: 11px 22px; border-radius: 8px; font-size: 13px; font-weight: 500; text-decoration: none; transition: opacity .15s; }
+    .btn-primary   { background: var(--green); color: #fff; }
+    .btn-primary:hover { opacity: .88; }
+    .btn-secondary { background: var(--card); color: var(--text); border: 0.5px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+    .btn-secondary:hover { background: var(--surface); }
+
+    /* ── Stats ── */
+    .stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 44px; }
+    .stat  { background: var(--card); border: 0.5px solid var(--border); border-radius: 10px; padding: 16px 14px; text-align: center; }
+    .stat-num { font-size: 26px; font-weight: 600; color: var(--green); letter-spacing: -.02em; }
+    .stat-lbl { font-size: 11px; color: var(--muted); margin-top: 3px; }
+
+    /* ── Section titles ── */
+    .section-hd { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+    .section-hd h2 { font-size: 15px; font-weight: 600; }
+    .section-hd .cnt { font-size: 11px; background: var(--surface); border: 0.5px solid var(--border); border-radius: 4px; padding: 2px 7px; color: var(--muted); }
+    .section-note { font-size: 12px; color: var(--muted); margin-bottom: 14px; margin-top: -8px; }
+
+    /* ── Endpoint grid ── */
+    .endpoints { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 44px; }
+    .ep { background: var(--card); border: 0.5px solid var(--border); border-radius: 8px; padding: 12px 14px; display: flex; align-items: flex-start; gap: 10px; }
+    .ep-left { flex-shrink: 0; padding-top: 1px; }
+    .method { font-size: 10px; font-weight: 700; font-family: var(--mono); padding: 3px 7px; border-radius: 3px; letter-spacing: .03em; }
+    .post   { background: #fff4e6; color: #b85c00; border: 0.5px solid #f5c07a; }
+    .get    { background: var(--blue-lt); color: var(--blue); border: 0.5px solid #85b7eb; }
+    .ep-path { font-size: 12px; font-family: var(--mono); color: var(--text); margin-top: 4px; word-break: break-all; }
+    .ep-desc { font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.5; }
+    .ep-body { font-size: 10px; color: #999; font-family: var(--mono); margin-top: 4px; background: var(--surface); border-radius: 3px; padding: 2px 5px; display: inline-block; }
+
+    /* ── Customers ── */
+    .customers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 44px; }
+    .customer-card { background: var(--card); border: 0.5px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+    .cust-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .cust-id   { font-size: 10px; font-family: var(--mono); color: var(--muted); }
+    .tier-badge { font-size: 10px; font-weight: 600; border-radius: 4px; padding: 2px 7px; }
+    .tier-Green    { background: #e8f5e9; color: #2e7d32; }
+    .tier-Silver   { background: #f0f0f0; color: #555; }
+    .tier-Gold     { background: var(--amber-lt); color: #92400e; }
+    .tier-Platinum { background: var(--purple-lt); color: var(--purple); }
+    .cust-name  { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+    .cust-email { font-size: 11px; color: var(--muted); margin-bottom: 10px; }
+    .cust-stats { display: flex; gap: 12px; }
+    .cust-stat  { font-size: 11px; color: var(--muted); }
+    .cust-stat strong { color: var(--text); font-weight: 600; display: block; font-size: 13px; }
+
+    /* ── Tiers ── */
+    .tiers-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 44px; }
+    .tier-card { background: var(--card); border: 0.5px solid var(--border); border-radius: 10px; padding: 14px; }
+    .tier-name { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+    .tier-range { font-size: 11px; color: var(--muted); margin-bottom: 8px; }
+    .tier-mult { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+    .tier-perks { list-style: none; }
+    .tier-perks li { font-size: 11px; color: var(--muted); padding: 2px 0; display: flex; gap: 5px; align-items: flex-start; }
+    .tier-perks li::before { content: "✓"; color: var(--green); font-weight: 700; flex-shrink: 0; }
+    .tier-card-Green    { border-top: 3px solid #4caf50; }
+    .tier-card-Silver   { border-top: 3px solid #9e9e9e; }
+    .tier-card-Gold     { border-top: 3px solid var(--amber); }
+    .tier-card-Platinum { border-top: 3px solid var(--purple); }
+
+    /* ── curl ── */
+    .curl-box { background: #1a1a18; border-radius: 10px; padding: 20px; margin-bottom: 44px; }
+    .curl-title { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .curl-title span { background: #2e2e2b; border-radius: 3px; padding: 2px 7px; color: #7ec89a; font-family: var(--mono); font-weight: 600; font-size: 10px; }
+    .curl-row { margin: 8px 0; padding: 10px 12px; background: #242420; border-radius: 6px; }
+    .curl-lbl { font-size: 10px; color: #666; font-family: var(--mono); margin-bottom: 4px; text-transform: uppercase; letter-spacing: .04em; }
+    .curl-cmd { font-size: 11px; color: #e0e0da; font-family: var(--mono); line-height: 1.7; word-break: break-all; }
+    .c-g { color: #7ec89a; } .c-b { color: #79b8f8; } .c-y { color: #e3c07f; }
+    .c-o { color: #f0a060; } .c-p { color: #c9a0f8; }
+
+    /* ── Footer ── */
+    footer { text-align: center; padding: 20px; font-size: 11px; color: var(--muted); border-top: 0.5px solid var(--border); }
+
+    @media (max-width: 700px) {
+      .stats           { grid-template-columns: repeat(3, 1fr); }
+      .endpoints       { grid-template-columns: 1fr; }
+      .customers-grid  { grid-template-columns: 1fr 1fr; }
+      .tiers-grid      { grid-template-columns: 1fr 1fr; }
+      header           { padding: 12px 16px; }
+      main             { padding: 28px 16px; }
+      h1               { font-size: 26px; }
+    }
+    @media (max-width: 460px) {
+      .stats           { grid-template-columns: repeat(2, 1fr); }
+      .customers-grid  { grid-template-columns: 1fr; }
+      .tiers-grid      { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Header ──────────────────────────────────────────────────────────────── -->
+<header>
+  <div class="logo">
+    <div class="logo-icon"><i class="ti ti-users"></i></div>
+    Publix CRM API
+  </div>
+  <div class="header-badges">
+    <span class="hbadge hbadge-post">ALL POST</span>
+    <span class="hbadge hbadge-ver">v1.0.0 · OpenAPI 3.1 · Python</span>
+  </div>
+</header>
+
+<!-- ── Main ────────────────────────────────────────────────────────────────── -->
+<main>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="pill"><div class="dot"></div> Live on Render &nbsp;·&nbsp; Mock CRM Database &nbsp;·&nbsp; Python Flask</div>
+    <h1>Publix Supermarket<br>Customer Relationship API</h1>
+    <p class="subtitle">Manage customer profiles, loyalty points, order records, and purchasing history analytics. Fully mock — no database required.</p>
+    <p class="post-note"><i class="ti ti-info-circle" style="font-size:14px"></i> All endpoints use <code>POST</code> with a JSON request body</p>
+    <div class="cta-row">
+      <a href="/docs" class="btn btn-primary"><i class="ti ti-book-2" style="font-size:15px"></i> Swagger UI Docs</a>
+      <a href="/api/openapi.json" class="btn btn-secondary"><i class="ti ti-braces" style="font-size:15px"></i> OpenAPI JSON</a>
+      <a href="/health" class="btn btn-secondary"><i class="ti ti-activity" style="font-size:15px"></i> Health Check</a>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat"><div class="stat-num">6</div><div class="stat-lbl">Customers</div></div>
+    <div class="stat"><div class="stat-num">8</div><div class="stat-lbl">Sample Orders</div></div>
+    <div class="stat"><div class="stat-num">23</div><div class="stat-lbl">Products</div></div>
+    <div class="stat"><div class="stat-num">4</div><div class="stat-lbl">Loyalty Tiers</div></div>
+    <div class="stat"><div class="stat-num">13</div><div class="stat-lbl">POST Endpoints</div></div>
+  </div>
+
+  <!-- Endpoints -->
+  <div class="section-hd"><h2>API Endpoints</h2><span class="cnt">13 POST + 2 GET</span></div>
+  <p class="section-note">Every API endpoint accepts <code style="font-family:var(--mono);font-size:11px;background:#fff4e6;padding:1px 5px;border-radius:3px;color:#b85c00">POST</code> with <code style="font-family:var(--mono);font-size:11px">Content-Type: application/json</code></p>
+
+  <div class="endpoints">
+
+    <div class="ep">
+      <div class="ep-left"><span class="method post">POST</span></div>
+      <div>
+        <div class="ep-path">/api/customers</div>
+        <div class="ep-desc">List customers — filter by tier, store, status</div>
+        <div class="ep-body">{ tier, store_id, active, page, limit }</div>
+      </div>
+    </div>
+
+    <div class="ep">
+      <div class="ep-left"><span class="method post">POST</span></div>
+      <div>
+        <div class="ep-path">/api/customers/profile</div>
+        <div class="ep-desc">Full customer profile with tier details and spend total</div>
+        <div class="ep-body">{ customer_id* }</div>
+      </div>
+    </div>
+
+    <div class="ep">
+      <div class="ep-left"><span class="method post">POST</span></div>
+      <div>
+        <div class="ep-path">/api/customers/search</div>
+        <div class="ep-desc">Search customers by name or email</div>
+        <div class="ep-body">{ q*, tier, page, limit }</div>
+      </div>
+    </div>
+
+    <div class="ep">
+      <div class="ep-left"><span class="method post">POST</span></div>
+      <div>
+        <div class="ep-path">/api/points/balance</div>
+        <div class="ep-desc">Points balance, tier multiplier, perks, next tier progress</div>
+        <div class="ep-body">{ customer_id* }</div>
+      </div>
+    </div>
+
+    <div class="ep">
+      <div class="ep-left"><span class="method post">POST</span></div>
+      <div>
+        <div class="ep-path">/api/points/earn</div>
+        <div class="ep-desc">Award points for a purchase — applies tier multiplier</div>
+        <div class="ep-body">{ customer_id*, purchase_amount*, order_id }</div>
+      </div>
+    </div>
+
+    <div class="ep">
+      <div class="ep-left"><span class="method post">POST</span></div>
+      <div>
+        <div class="ep-path">/api/points/redeem</div>
+        <div class="ep-desc">Redeem points for dollar credit (min 100 pts = $1.00)</div>
+        <div class="ep-body">{ customer_id*, points* }</div>
+      </div>
+    </div>
+
+    <div class="ep">
+      <div class="ep-left"><span class="method post">POST</span></div>
+      <div>
+        <div class="ep-path">/api/points/tiers</div>
+        <div class="ep-desc">All loyalty tier definitions with perks and multipliers</div>
+        <div class="ep-body">{ }</div>
+      </div>
+    </div>
+
+    <div class="ep">
+      <div class="ep-left"><span class="method post">POST</span></div>
+      <div>
+        <div class="ep-path">/api/orders</div>
+        <div class="ep-desc">List orders — filter by customer, store, status</div>
+        <div class="ep-body">{ customer_id, store_id, status, page, limit }</div>
+      </div>
+    </div>
+
+    <div class="ep">
+      <div class="ep-left"><span class="method post">POST</span></div>
+      <div>
+        <div class="ep-path">/api/orders/detail</div>
+        <div class="ep-desc">Full order with line items, tax, points earned/redeemed</div>
+        <div class="ep-body">{ order_id* }</div>
+      </div>
+    </div>
+
+    <div class="ep">
+      <div class="ep-left"><span class="method post">POST</span></div>
+      <div>
+        <div class="ep-path">/api/history/summary</div>
+        <div class="ep-desc">Spending summary — total orders, avg order, favorite category</div>
+        <div class="ep-body">{ customer_id* }</div>
+      </div>
+    </div>
+
+    <div class="ep">
+      <div class="ep-left"><span class="method post">POST</span></div>
+      <div>
+        <div class="ep-path">/api/history/by-category</div>
+        <div class="ep-desc">Spend breakdown ranked by category</div>
+        <div class="ep-body">{ customer_id* }</div>
+      </div>
+    </div>
+
+    <div class="ep">
+      <div class="ep-left"><span class="method post">POST</span></div>
+      <div>
+        <div class="ep-path">/api/history/top-products</div>
+        <div class="ep-desc">Most purchased products by qty with total spend</div>
+        <div class="ep-body">{ customer_id*, limit }</div>
+      </div>
+    </div>
+
+    <div class="ep">
+      <div class="ep-left"><span class="method post">POST</span></div>
+      <div>
+        <div class="ep-path">/api/products</div>
+        <div class="ep-desc">Product catalog with category and points-per-dollar rate</div>
+        <div class="ep-body">{ category, min_points_ppd }</div>
+      </div>
+    </div>
+
+    <div class="ep">
+      <div class="ep-left"><span class="method get">GET</span></div>
+      <div>
+        <div class="ep-path">/api/openapi.json</div>
+        <div class="ep-desc">OpenAPI 3.1 machine-readable spec</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Customers -->
+  <div class="section-hd"><h2>Sample Customers</h2><span class="cnt">6 records</span></div>
+  <div class="customers-grid">
+
+    <div class="customer-card">
+      <div class="cust-header"><span class="cust-id">CUS-001</span><span class="tier-badge tier-Gold">Gold</span></div>
+      <div class="cust-name">Maria Gonzalez</div>
+      <div class="cust-email">maria.gonzalez@email.com</div>
+      <div class="cust-stats">
+        <div class="cust-stat"><strong>4,750</strong>Points</div>
+        <div class="cust-stat"><strong>$75.17</strong>Spent</div>
+        <div class="cust-stat"><strong>2</strong>Orders</div>
+      </div>
+    </div>
+
+    <div class="customer-card">
+      <div class="cust-header"><span class="cust-id">CUS-002</span><span class="tier-badge tier-Platinum">Platinum</span></div>
+      <div class="cust-name">James Whitfield</div>
+      <div class="cust-email">j.whitfield@email.com</div>
+      <div class="cust-stats">
+        <div class="cust-stat"><strong>9,820</strong>Points</div>
+        <div class="cust-stat"><strong>$175.94</strong>Spent</div>
+        <div class="cust-stat"><strong>2</strong>Orders</div>
+      </div>
+    </div>
+
+    <div class="customer-card">
+      <div class="cust-header"><span class="cust-id">CUS-003</span><span class="tier-badge tier-Silver">Silver</span></div>
+      <div class="cust-name">Priya Nair</div>
+      <div class="cust-email">priya.nair@email.com</div>
+      <div class="cust-stats">
+        <div class="cust-stat"><strong>1,230</strong>Points</div>
+        <div class="cust-stat"><strong>$30.07</strong>Spent</div>
+        <div class="cust-stat"><strong>1</strong>Orders</div>
+      </div>
+    </div>
+
+    <div class="customer-card">
+      <div class="cust-header"><span class="cust-id">CUS-004</span><span class="tier-badge tier-Green">Green</span></div>
+      <div class="cust-name">Derek Fontaine</div>
+      <div class="cust-email">derek.fontaine@email.com</div>
+      <div class="cust-stats">
+        <div class="cust-stat"><strong>310</strong>Points</div>
+        <div class="cust-stat"><strong>$35.86</strong>Spent</div>
+        <div class="cust-stat"><strong>1</strong>Orders</div>
+      </div>
+    </div>
+
+    <div class="customer-card">
+      <div class="cust-header"><span class="cust-id">CUS-005</span><span class="tier-badge tier-Gold">Gold</span></div>
+      <div class="cust-name">Angela Torres</div>
+      <div class="cust-email">angela.torres@email.com</div>
+      <div class="cust-stats">
+        <div class="cust-stat"><strong>3,410</strong>Points</div>
+        <div class="cust-stat"><strong>$76.47</strong>Spent</div>
+        <div class="cust-stat"><strong>1</strong>Orders</div>
+      </div>
+    </div>
+
+    <div class="customer-card">
+      <div class="cust-header"><span class="cust-id">CUS-006</span><span class="tier-badge tier-Silver">Silver</span></div>
+      <div class="cust-name">Robert Chen</div>
+      <div class="cust-email">rob.chen@email.com</div>
+      <div class="cust-stats">
+        <div class="cust-stat"><strong>1,890</strong>Points</div>
+        <div class="cust-stat"><strong>$34.41</strong>Spent</div>
+        <div class="cust-stat"><strong>1</strong>Orders</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Loyalty Tiers -->
+  <div class="section-hd"><h2>Loyalty Tiers</h2><span class="cnt">4 tiers</span></div>
+  <div class="tiers-grid">
+
+    <div class="tier-card tier-card-Green">
+      <div class="tier-name">🌱 Green</div>
+      <div class="tier-range">0 – 999 lifetime pts</div>
+      <div class="tier-mult" style="color:#4caf50">1.0×</div>
+      <ul class="tier-perks">
+        <li>Birthday bonus points</li>
+      </ul>
+    </div>
+
+    <div class="tier-card tier-card-Silver">
+      <div class="tier-name">🥈 Silver</div>
+      <div class="tier-range">1,000 – 4,999 lifetime pts</div>
+      <div class="tier-mult" style="color:#9e9e9e">1.25×</div>
+      <ul class="tier-perks">
+        <li>Birthday bonus points</li>
+        <li>5% off floral</li>
+        <li>Free sub upgrade</li>
+      </ul>
+    </div>
+
+    <div class="tier-card tier-card-Gold">
+      <div class="tier-name">🥇 Gold</div>
+      <div class="tier-range">5,000 – 19,999 lifetime pts</div>
+      <div class="tier-mult" style="color:var(--amber)">1.5×</div>
+      <ul class="tier-perks">
+        <li>Birthday bonus points</li>
+        <li>10% off deli</li>
+        <li>Free sub upgrade</li>
+        <li>Double points weekends</li>
+      </ul>
+    </div>
+
+    <div class="tier-card tier-card-Platinum">
+      <div class="tier-name">💎 Platinum</div>
+      <div class="tier-range">20,000+ lifetime pts</div>
+      <div class="tier-mult" style="color:var(--purple)">2.0×</div>
+      <ul class="tier-perks">
+        <li>Birthday bonus points</li>
+        <li>15% off all purchases</li>
+        <li>Triple points weekends</li>
+        <li>Free delivery</li>
+        <li>Dedicated service line</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- curl examples -->
+  <div class="section-hd"><h2>Example requests</h2></div>
+  <div class="curl-box">
+    <div class="curl-title">curl examples <span>-X POST</span></div>
+
+    <div class="curl-row">
+      <div class="curl-lbl">Customer profile</div>
+      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://publix-crm-api.onrender.com/api/customers/profile</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"customer_id":"CUS-001"}'</span></code>
+    </div>
+
+    <div class="curl-row">
+      <div class="curl-lbl">Points balance + tier info</div>
+      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://publix-crm-api.onrender.com/api/points/balance</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"customer_id":"CUS-002"}'</span></code>
+    </div>
+
+    <div class="curl-row">
+      <div class="curl-lbl">Earn points for purchase</div>
+      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://publix-crm-api.onrender.com/api/points/earn</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"customer_id":"CUS-001","purchase_amount":45.99}'</span></code>
+    </div>
+
+    <div class="curl-row">
+      <div class="curl-lbl">Order detail with line items</div>
+      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://publix-crm-api.onrender.com/api/orders/detail</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"order_id":"ORD-2026-0003"}'</span></code>
+    </div>
+
+    <div class="curl-row">
+      <div class="curl-lbl">Purchasing summary</div>
+      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://publix-crm-api.onrender.com/api/history/summary</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"customer_id":"CUS-002"}'</span></code>
+    </div>
+
+    <div class="curl-row">
+      <div class="curl-lbl">Spend by category</div>
+      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://publix-crm-api.onrender.com/api/history/by-category</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"customer_id":"CUS-001"}'</span></code>
+    </div>
+
+    <div class="curl-row">
+      <div class="curl-lbl">Top purchased products</div>
+      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://publix-crm-api.onrender.com/api/history/top-products</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"customer_id":"CUS-002","limit":5}'</span></code>
+    </div>
+
+  </div>
+
+</main>
+
+<footer>Publix CRM API &nbsp;·&nbsp; v1.0.0 &nbsp;·&nbsp; OpenAPI 3.1 &nbsp;·&nbsp; Python Flask &nbsp;·&nbsp; Deployed on Render &nbsp;·&nbsp; Mock data only</footer>
+
+</body>
+</html>
