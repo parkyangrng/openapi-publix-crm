@@ -10,57 +10,99 @@ app = Flask(__name__, static_folder='public', static_url_path='')
 
 CUSTOMERS = {
     "CUS-001": {
-        "id": "CUS-001", "first_name": "Maria", "last_name": "Gonzalez",
-        "email": "maria.gonzalez@email.com", "phone": "786-555-0101",
+        "id": "CUS-001", "first_name": "Parker", "last_name": "Gonzalez",
+        "email": "parker.gonzalez@email.com",
+        "phone": "(980) 270-4363",
+        "mobile": "(301) 326-3739",
         "store_id": "store_FL01", "tier": "Gold",
         "points_balance": 4750, "lifetime_points": 12340,
-        "joined": "2021-03-15", "birth_month": 6,
-        "address": {"street": "245 Brickell Ave", "city": "Miami", "state": "FL", "zip": "33129"},
+        "joined": "2021-03-15",
+        "birthday": "1988-06-14",
+        "address": {
+            "street": "245 Brickell Ave", "apt": "Apt 18B",
+            "city": "Miami", "state": "FL", "zip": "33129",
+            "country": "US"
+        },
         "preferences": ["organic", "gluten-free"], "active": True
     },
     "CUS-002": {
         "id": "CUS-002", "first_name": "James", "last_name": "Whitfield",
-        "email": "j.whitfield@email.com", "phone": "404-555-0188",
+        "email": "j.whitfield@email.com",
+        "phone": "(404) 871-2256",
+        "mobile": "(404) 993-7741",
         "store_id": "store_GA01", "tier": "Platinum",
         "points_balance": 9820, "lifetime_points": 48900,
-        "joined": "2019-08-22", "birth_month": 11,
-        "address": {"street": "3310 Peachtree Rd NE", "city": "Atlanta", "state": "GA", "zip": "30326"},
+        "joined": "2019-08-22",
+        "birthday": "1975-11-03",
+        "address": {
+            "street": "3310 Peachtree Rd NE", "apt": "Unit 4A",
+            "city": "Atlanta", "state": "GA", "zip": "30326",
+            "country": "US"
+        },
         "preferences": ["deli", "seafood"], "active": True
     },
     "CUS-003": {
         "id": "CUS-003", "first_name": "Priya", "last_name": "Nair",
-        "email": "priya.nair@email.com", "phone": "305-555-0244",
+        "email": "priya.nair@email.com",
+        "phone": "(305) 446-9012",
+        "mobile": "(305) 781-6623",
         "store_id": "store_FL02", "tier": "Silver",
         "points_balance": 1230, "lifetime_points": 5670,
-        "joined": "2022-11-01", "birth_month": 3,
-        "address": {"street": "88 Coral Way", "city": "Coral Gables", "state": "FL", "zip": "33133"},
+        "joined": "2022-11-01",
+        "birthday": "1994-03-27",
+        "address": {
+            "street": "88 Coral Way", "apt": "Suite 202",
+            "city": "Coral Gables", "state": "FL", "zip": "33133",
+            "country": "US"
+        },
         "preferences": ["vegetarian", "dairy-free"], "active": True
     },
     "CUS-004": {
         "id": "CUS-004", "first_name": "Derek", "last_name": "Fontaine",
-        "email": "derek.fontaine@email.com", "phone": "786-555-0399",
+        "email": "derek.fontaine@email.com",
+        "phone": "(786) 230-5587",
+        "mobile": "(786) 904-1132",
         "store_id": "store_FL03", "tier": "Green",
         "points_balance": 310, "lifetime_points": 980,
-        "joined": "2023-06-10", "birth_month": 8,
-        "address": {"street": "190 NW 2nd Ave", "city": "Miami", "state": "FL", "zip": "33128"},
+        "joined": "2023-06-10",
+        "birthday": "2000-08-19",
+        "address": {
+            "street": "190 NW 2nd Ave", "apt": "Apt 7",
+            "city": "Miami", "state": "FL", "zip": "33128",
+            "country": "US"
+        },
         "preferences": ["bakery", "beverages"], "active": True
     },
     "CUS-005": {
         "id": "CUS-005", "first_name": "Angela", "last_name": "Torres",
-        "email": "angela.torres@email.com", "phone": "404-555-0512",
+        "email": "angela.torres@email.com",
+        "phone": "(404) 523-6690",
+        "mobile": "(404) 817-4459",
         "store_id": "store_GA02", "tier": "Gold",
         "points_balance": 3410, "lifetime_points": 15200,
-        "joined": "2020-05-28", "birth_month": 1,
-        "address": {"street": "650 Ponce De Leon Ave NE", "city": "Atlanta", "state": "GA", "zip": "30308"},
+        "joined": "2020-05-28",
+        "birthday": "1991-01-08",
+        "address": {
+            "street": "650 Ponce De Leon Ave NE", "apt": "Apt 3C",
+            "city": "Atlanta", "state": "GA", "zip": "30308",
+            "country": "US"
+        },
         "preferences": ["meat", "pantry"], "active": True
     },
     "CUS-006": {
         "id": "CUS-006", "first_name": "Robert", "last_name": "Chen",
-        "email": "rob.chen@email.com", "phone": "305-555-0677",
+        "email": "rob.chen@email.com",
+        "phone": "(305) 667-3318",
+        "mobile": "(305) 924-8807",
         "store_id": "store_FL04", "tier": "Silver",
         "points_balance": 1890, "lifetime_points": 7340,
-        "joined": "2022-02-14", "birth_month": 9,
-        "address": {"street": "3401 Main Hwy", "city": "Coconut Grove", "state": "FL", "zip": "33133"},
+        "joined": "2022-02-14",
+        "birthday": "1986-09-22",
+        "address": {
+            "street": "3401 Main Hwy", "apt": "Unit 12",
+            "city": "Coconut Grove", "state": "FL", "zip": "33133",
+            "country": "US"
+        },
         "preferences": ["organic", "produce"], "active": True
     },
 }
@@ -533,10 +575,14 @@ def points_balance():
     next_tier  = {"Green": "Silver", "Silver": "Gold", "Gold": "Platinum"}.get(c["tier"])
     next_min   = POINTS_TIERS.get(next_tier, {}).get("min") if next_tier else None
     pts_to_next= (next_min - c["lifetime_points"]) if next_min else None
+    birthday   = c.get("birthday", "")
+    birth_month= int(birthday.split("-")[1]) if birthday else None
 
     return jsonify({
         "customer_id":       cid,
         "name":              f"{c['first_name']} {c['last_name']}",
+        "birthday":          birthday,
+        "birth_month":       birth_month,
         "points_balance":    c["points_balance"],
         "lifetime_points":   c["lifetime_points"],
         "tier":              c["tier"],
