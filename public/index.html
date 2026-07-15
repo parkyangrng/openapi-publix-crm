@@ -1,4 +1,4 @@
-openapi-publix-crm.onrender.com<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -176,11 +176,11 @@ openapi-publix-crm.onrender.com<!DOCTYPE html>
     <div class="stat"><div class="stat-num">8</div><div class="stat-lbl">Sample Orders</div></div>
     <div class="stat"><div class="stat-num">23</div><div class="stat-lbl">Products</div></div>
     <div class="stat"><div class="stat-num">4</div><div class="stat-lbl">Loyalty Tiers</div></div>
-    <div class="stat"><div class="stat-num">13</div><div class="stat-lbl">POST Endpoints</div></div>
+    <div class="stat"><div class="stat-num">14</div><div class="stat-lbl">POST Endpoints</div></div>
   </div>
 
   <!-- Endpoints -->
-  <div class="section-hd"><h2>API Endpoints</h2><span class="cnt">13 POST + 2 GET</span></div>
+  <div class="section-hd"><h2>API Endpoints</h2><span class="cnt">14 POST + 2 GET</span></div>
   <p class="section-note">Every API endpoint accepts <code style="font-family:var(--mono);font-size:11px;background:#fff4e6;padding:1px 5px;border-radius:3px;color:#b85c00">POST</code> with <code style="font-family:var(--mono);font-size:11px">Content-Type: application/json</code></p>
 
   <div class="endpoints">
@@ -209,6 +209,15 @@ openapi-publix-crm.onrender.com<!DOCTYPE html>
         <div class="ep-path">/api/customers/search</div>
         <div class="ep-desc">Search customers by name or email</div>
         <div class="ep-body">{ q*, tier, page, limit }</div>
+      </div>
+    </div>
+
+    <div class="ep">
+      <div class="ep-left"><span class="method post">POST</span></div>
+      <div>
+        <div class="ep-path">/api/customers/search/phone</div>
+        <div class="ep-desc">Look up customer by phone or mobile number — any format accepted</div>
+        <div class="ep-body">{ phone*, exact }</div>
       </div>
     </div>
 
@@ -472,37 +481,37 @@ openapi-publix-crm.onrender.com<!DOCTYPE html>
 
     <div class="curl-row">
       <div class="curl-lbl">Customer profile</div>
-      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://openapi-publix-crm.onrender.com/api/customers/profile</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"customer_id":"CUS-001"}'</span></code>
+      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://publix-crm-api.onrender.com/api/customers/profile</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"customer_id":"CUS-001"}'</span></code>
     </div>
 
     <div class="curl-row">
       <div class="curl-lbl">Points balance + tier info</div>
-      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://openapi-publix-crm.onrender.com/api/points/balance</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"customer_id":"CUS-002"}'</span></code>
+      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://publix-crm-api.onrender.com/api/points/balance</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"customer_id":"CUS-002"}'</span></code>
     </div>
 
     <div class="curl-row">
       <div class="curl-lbl">Earn points for purchase</div>
-      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://openapi-publix-crm.onrender.com/api/points/earn</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"customer_id":"CUS-001","purchase_amount":45.99}'</span></code>
+      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://publix-crm-api.onrender.com/api/points/earn</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"customer_id":"CUS-001","purchase_amount":45.99}'</span></code>
     </div>
 
     <div class="curl-row">
       <div class="curl-lbl">Order detail with line items</div>
-      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://openapi-publix-crm.onrender.com/api/orders/detail</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"order_id":"ORD-2026-0003"}'</span></code>
+      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://publix-crm-api.onrender.com/api/orders/detail</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"order_id":"ORD-2026-0003"}'</span></code>
     </div>
 
     <div class="curl-row">
       <div class="curl-lbl">Purchasing summary</div>
-      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://openapi-publix-crm.onrender.com/api/history/summary</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"customer_id":"CUS-002"}'</span></code>
+      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://publix-crm-api.onrender.com/api/history/summary</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"customer_id":"CUS-002"}'</span></code>
     </div>
 
     <div class="curl-row">
       <div class="curl-lbl">Spend by category</div>
-      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://openapi-publix-crm.onrender.com/api/history/by-category</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"customer_id":"CUS-001"}'</span></code>
+      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://publix-crm-api.onrender.com/api/history/by-category</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"customer_id":"CUS-001"}'</span></code>
     </div>
 
     <div class="curl-row">
       <div class="curl-lbl">Top purchased products</div>
-      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://openapi-publix-crm.onrender.com/api/history/top-products</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"customer_id":"CUS-002","limit":5}'</span></code>
+      <code class="curl-cmd"><span class="c-g">curl</span> <span class="c-o">-X POST</span> <span class="c-b">https://publix-crm-api.onrender.com/api/history/top-products</span> \<br>&nbsp;&nbsp;<span class="c-p">-H</span> <span class="c-y">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="c-p">-d</span> <span class="c-y">'{"customer_id":"CUS-002","limit":5}'</span></code>
     </div>
 
   </div>
