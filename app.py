@@ -425,6 +425,25 @@ def api_err(msg, code):
 def customer_orders(cid):
     return [o for o in ORDERS.values() if o["customer_id"] == cid]
 
+def resolve_customer(body):
+    """Return (customer_dict, error_response) from customer_id OR phone lookup."""
+    cid   = body.get("customer_id")
+    phone = str(body.get("phone", "")).strip()
+    if not cid and not phone:
+        return None, api_err("Supply either 'customer_id' or 'phone'.", 400)
+    if cid:
+        c = CUSTOMERS.get(cid)
+        return (c, api_err(f"Customer '{cid}' not found.", 404)) if not c else (c, None)
+    digits = "".join(ch for ch in phone if ch.isdigit())
+    if len(digits) < 4:
+        return None, api_err("'phone' must contain at least 4 digits.", 400)
+    for c in CUSTOMERS.values():
+        pd = "".join(ch for ch in c.get("phone",  "") if ch.isdigit())
+        md = "".join(ch for ch in c.get("mobile", "") if ch.isdigit())
+        if digits in pd or digits in md:
+            return c, None
+    return None, api_err(f"No customer found matching phone '{phone}'.", 404)
+
 def spending_summary(orders):
     return {
         "total_orders": len(orders),
@@ -575,9 +594,21 @@ SPEC = {
         "/api/orders": {
             "post": {
                 "tags": ["Orders"], "summary": "List orders",
+                "description": "List all orders filtered by customer_id OR phone/mobile number, store, or status. Supply customer_id or phone — not both.",
                 "operationId": "listOrders",
-                "requestBody": {"required": True, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/OrdersRequest"}, "example": {"customer_id": "CUS-001", "page": 1, "limit": 10}}}},
-                "responses": {"200": {"description": "Paginated order list"}},
+                "requestBody": {
+                    "required": True,
+                    "content": {
+                        "application/json": {
+                            "schema": {"$ref": "#/components/schemas/OrdersRequest"},
+                            "examples": {
+                                "by_id":    {"summary": "By customer ID",   "value": {"customer_id": "CUS-001", "page": 1, "limit": 10}},
+                                "by_phone": {"summary": "By phone number",  "value": {"phone": "786-304-8821"}},
+                            },
+                        }
+                    },
+                },
+                "responses": {"200": {"description": "Paginated order list with customer info attached"}, "400": {"description": "Invalid request"}, "404": {"description": "Customer not found"}},
             }
         },
         "/api/orders/detail": {
@@ -591,25 +622,61 @@ SPEC = {
         "/api/history/summary": {
             "post": {
                 "tags": ["History"], "summary": "Purchasing summary",
+                "description": "Get spending summary by customer_id OR phone/mobile number.",
                 "operationId": "purchaseSummary",
-                "requestBody": {"required": True, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/CustomerIdRequest"}, "example": {"customer_id": "CUS-001"}}}},
-                "responses": {"200": {"description": "Spending totals, favorite category, order stats"}, "404": {"description": "Customer not found"}},
+                "requestBody": {
+                    "required": True,
+                    "content": {
+                        "application/json": {
+                            "schema": {"$ref": "#/components/schemas/PhoneLookupRequest"},
+                            "examples": {
+                                "by_id":    {"summary": "By customer ID",  "value": {"customer_id": "CUS-001"}},
+                                "by_phone": {"summary": "By phone number", "value": {"phone": "786-304-8821"}},
+                            },
+                        }
+                    },
+                },
+                "responses": {"200": {"description": "Spending totals, favorite category, order stats"}, "400": {"description": "No lookup key supplied"}, "404": {"description": "Customer not found"}},
             }
         },
         "/api/history/by-category": {
             "post": {
                 "tags": ["History"], "summary": "Spend by category",
+                "description": "Get spend breakdown by category using customer_id OR phone/mobile number.",
                 "operationId": "spendByCategory",
-                "requestBody": {"required": True, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/CustomerIdRequest"}, "example": {"customer_id": "CUS-002"}}}},
-                "responses": {"200": {"description": "Spending breakdown by product category"}},
+                "requestBody": {
+                    "required": True,
+                    "content": {
+                        "application/json": {
+                            "schema": {"$ref": "#/components/schemas/PhoneLookupRequest"},
+                            "examples": {
+                                "by_id":    {"summary": "By customer ID",  "value": {"customer_id": "CUS-002"}},
+                                "by_phone": {"summary": "By phone number", "value": {"phone": "404-871-2256"}},
+                            },
+                        }
+                    },
+                },
+                "responses": {"200": {"description": "Spending breakdown by product category"}, "404": {"description": "Customer not found"}},
             }
         },
         "/api/history/top-products": {
             "post": {
                 "tags": ["History"], "summary": "Most purchased products",
+                "description": "Get top products by quantity using customer_id OR phone/mobile number.",
                 "operationId": "topProducts",
-                "requestBody": {"required": True, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/TopProductsRequest"}, "example": {"customer_id": "CUS-001", "limit": 5}}}},
-                "responses": {"200": {"description": "Top products by quantity purchased"}},
+                "requestBody": {
+                    "required": True,
+                    "content": {
+                        "application/json": {
+                            "schema": {"$ref": "#/components/schemas/TopProductsRequest"},
+                            "examples": {
+                                "by_id":    {"summary": "By customer ID",  "value": {"customer_id": "CUS-001", "limit": 5}},
+                                "by_phone": {"summary": "By phone number", "value": {"phone": "786-304-8821", "limit": 5}},
+                            },
+                        }
+                    },
+                },
+                "responses": {"200": {"description": "Top products by quantity purchased"}, "404": {"description": "Customer not found"}},
             }
         },
         "/api/products": {
@@ -683,10 +750,20 @@ SPEC = {
                     "points":      {"type": "integer", "minimum": 100, "description": "Minimum 100 points per redemption"},
                 },
             },
+            "PhoneLookupRequest": {
+                "type": "object",
+                "description": "Supply exactly one of customer_id or phone.",
+                "properties": {
+                    "customer_id": {"type": "string", "example": "CUS-001",      "description": "Unique customer ID"},
+                    "phone":       {"type": "string", "example": "786-304-8821", "description": "Phone or mobile — any format, min 4 digits"},
+                },
+            },
             "OrdersRequest": {
                 "type": "object",
+                "description": "Supply customer_id OR phone to filter by customer. Both are optional — omit both to return all orders.",
                 "properties": {
-                    "customer_id": {"type": "string"},
+                    "customer_id": {"type": "string",  "example": "CUS-001",      "description": "Filter by customer ID"},
+                    "phone":       {"type": "string",  "example": "786-304-8821", "description": "Filter by phone or mobile number (any format, min 4 digits)"},
                     "store_id":    {"type": "string"},
                     "status":      {"type": "string", "enum": ["completed","pending","cancelled"]},
                     "page":        {"type": "integer", "default": 1},
@@ -694,9 +771,11 @@ SPEC = {
                 },
             },
             "TopProductsRequest": {
-                "type": "object", "required": ["customer_id"],
+                "type": "object",
+                "description": "Supply customer_id OR phone.",
                 "properties": {
-                    "customer_id": {"type": "string"},
+                    "customer_id": {"type": "string", "example": "CUS-001"},
+                    "phone":       {"type": "string", "example": "786-304-8821", "description": "Phone or mobile number (any format, min 4 digits)"},
                     "limit":       {"type": "integer", "default": 5, "maximum": 20},
                 },
             },
@@ -969,17 +1048,29 @@ def list_tiers():
 @app.route("/api/orders", methods=["POST"])
 def list_orders():
     body     = request.json or {}
-    cid      = body.get("customer_id")
     store_id = body.get("store_id")
     status   = body.get("status")
     page     = body.get("page", 1)
     limit    = body.get("limit", 20)
 
     items = list(ORDERS.values())
-    if cid:      items = [o for o in items if o["customer_id"] == cid]
+
+    # phone or customer_id filter — both optional for orders list
+    if body.get("customer_id") or body.get("phone"):
+        c, err = resolve_customer(body)
+        if err: return err
+        items = [o for o in items if o["customer_id"] == c["id"]]
+
     if store_id: items = [o for o in items if o["store_id"] == store_id]
     if status:   items = [o for o in items if o["status"] == status]
     items.sort(key=lambda x: x["date"], reverse=True)
+
+    # attach customer name and phone to each order for convenience
+    for o in items:
+        c = CUSTOMERS.get(o["customer_id"], {})
+        o["customer_name"]  = f"{c.get('first_name','')} {c.get('last_name','')}".strip()
+        o["customer_phone"] = c.get("phone", "")
+
     return jsonify(paginate(items, page, limit))
 
 
@@ -1001,30 +1092,27 @@ def get_order():
 @app.route("/api/history/summary", methods=["POST"])
 def purchase_summary():
     body = request.json or {}
-    cid  = body.get("customer_id")
-    if not cid: return api_err("customer_id is required.", 400)
-    c = CUSTOMERS.get(cid)
-    if not c:   return api_err(f"Customer '{cid}' not found.", 404)
+    c, err = resolve_customer(body)
+    if err: return err
 
-    orders = customer_orders(cid)
+    orders  = customer_orders(c["id"])
     summary = spending_summary(orders)
-    summary["customer_id"]   = cid
-    summary["customer_name"] = f"{c['first_name']} {c['last_name']}"
-    summary["tier"]          = c["tier"]
-    summary["points_balance"]= c["points_balance"]
-    summary["member_since"]  = c["joined"]
+    summary["customer_id"]    = c["id"]
+    summary["customer_name"]  = f"{c['first_name']} {c['last_name']}"
+    summary["customer_phone"] = c.get("phone", "")
+    summary["tier"]           = c["tier"]
+    summary["points_balance"] = c["points_balance"]
+    summary["member_since"]   = c["joined"]
     return jsonify(summary)
 
 
 @app.route("/api/history/by-category", methods=["POST"])
 def spend_by_category():
     body = request.json or {}
-    cid  = body.get("customer_id")
-    if not cid: return api_err("customer_id is required.", 400)
-    c = CUSTOMERS.get(cid)
-    if not c:   return api_err(f"Customer '{cid}' not found.", 404)
+    c, err = resolve_customer(body)
+    if err: return err
 
-    orders = customer_orders(cid)
+    orders = customer_orders(c["id"])
     cat_spend = {}
     cat_qty   = {}
     for o in orders:
@@ -1039,23 +1127,22 @@ def spend_by_category():
         for cat in sorted(cat_spend, key=cat_spend.get, reverse=True)
     ]
     return jsonify({
-        "customer_id": cid,
-        "customer_name": f"{c['first_name']} {c['last_name']}",
-        "breakdown": breakdown,
-        "total_spent": round(sum(o["total"] for o in orders), 2),
+        "customer_id":    c["id"],
+        "customer_name":  f"{c['first_name']} {c['last_name']}",
+        "customer_phone": c.get("phone", ""),
+        "breakdown":      breakdown,
+        "total_spent":    round(sum(o["total"] for o in orders), 2),
     })
 
 
 @app.route("/api/history/top-products", methods=["POST"])
 def top_products():
     body  = request.json or {}
-    cid   = body.get("customer_id")
     limit = min(20, int(body.get("limit", 5)))
-    if not cid: return api_err("customer_id is required.", 400)
-    c = CUSTOMERS.get(cid)
-    if not c:   return api_err(f"Customer '{cid}' not found.", 404)
+    c, err = resolve_customer(body)
+    if err: return err
 
-    orders  = customer_orders(cid)
+    orders = customer_orders(c["id"])
     skus    = {}
     for o in orders:
         for item in o["items"]:
@@ -1068,7 +1155,7 @@ def top_products():
                 "total_spent": round(info["spent"], 2),
                 "category": PRODUCTS.get(sku, {}).get("category")} for sku, info in ranked]
 
-    return jsonify({"customer_id": cid, "top_products": results})
+    return jsonify({"customer_id": c["id"], "customer_phone": c.get("phone",""), "top_products": results})
 
 # ─── Routes: Products ─────────────────────────────────────────────────────────
 
