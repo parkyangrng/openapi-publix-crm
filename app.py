@@ -12,8 +12,8 @@ CUSTOMERS = {
     "CUS-001": {
         "id": "CUS-001", "first_name": "Maria", "last_name": "Gonzalez",
         "email": "maria.gonzalez@email.com",
-        "phone": "(301) 326-3739",
-        "mobile": "(301) 326-3739",
+        "phone": "(786) 304-8821",
+        "mobile": "(786) 512-3394",
         "store_id": "store_FL01", "tier": "Gold",
         "points_balance": 4750, "lifetime_points": 12340,
         "joined": "2021-03-15",
@@ -131,108 +131,275 @@ PRODUCTS = {
     "FRZ-ICE-VNL": {"name": "Vanilla Bean Ice Cream",      "category": "frozen",    "price": 5.99,  "points_per_dollar": 1},
     "PHR-VIT-C":   {"name": "Vitamin C 1000mg 100ct",       "category": "pharmacy",  "price": 9.99,  "points_per_dollar": 1},
     "FLR-RSE-DZN": {"name": "Red Rose Bouquet Dozen",       "category": "floral",    "price": 19.99, "points_per_dollar": 3},
+    # Additional products used in historical orders
+    "PRD-SPN-BYB": {"name": "Organic Baby Spinach 5oz",     "category": "produce",   "price": 3.99,  "points_per_dollar": 2},
+    "PRD-BRO-CRW": {"name": "Broccoli Crown",               "category": "produce",   "price": 2.49,  "points_per_dollar": 2},
+    "PRD-TOM-ROM": {"name": "Roma Tomatoes",                 "category": "produce",   "price": 1.29,  "points_per_dollar": 2},
+    "PRD-KAL-ORG": {"name": "Organic Kale Bunch",           "category": "produce",   "price": 2.99,  "points_per_dollar": 2},
+    "DRY-MLK-ALM": {"name": "Almond Milk Unsweetened",      "category": "dairy",     "price": 4.29,  "points_per_dollar": 1},
+    "DRY-YGT-GRK": {"name": "Greek Yogurt Plain 17.6oz",   "category": "dairy",     "price": 2.79,  "points_per_dollar": 1},
+    "DRY-BTR-UNS": {"name": "Unsalted Butter 4 sticks",     "category": "dairy",     "price": 5.99,  "points_per_dollar": 1},
+    "BKR-BRD-WHT": {"name": "Whole Wheat Bread",            "category": "bakery",    "price": 3.49,  "points_per_dollar": 2},
+    "BKR-MFN-BLB": {"name": "Blueberry Muffin Jumbo",      "category": "bakery",    "price": 2.79,  "points_per_dollar": 2},
+    "BKR-SUB-ITA": {"name": "Italian Sub Roll 6-pack",      "category": "bakery",    "price": 3.99,  "points_per_dollar": 2},
+    "BEV-WTR-SPK": {"name": "Sparkling Water 12pk",         "category": "beverages", "price": 7.49,  "points_per_dollar": 1},
+    "BEV-TEA-GRN": {"name": "Green Tea 20-bag box",         "category": "beverages", "price": 3.99,  "points_per_dollar": 1},
+    "BEV-JUC-APL": {"name": "Apple Juice 64oz",             "category": "beverages", "price": 4.49,  "points_per_dollar": 1},
+    "MET-SHR-LRG": {"name": "Large Shrimp 1lb Raw",         "category": "meat",      "price": 11.99, "points_per_dollar": 3},
+    "PNT-RCE-JSM": {"name": "Jasmine Rice 5lb",             "category": "pantry",    "price": 6.99,  "points_per_dollar": 1},
+    "PNT-CAN-TOM": {"name": "Diced Tomatoes 14.5oz",        "category": "pantry",    "price": 1.09,  "points_per_dollar": 1},
+    "PNT-PNB-CRK": {"name": "Creamy Peanut Butter 16oz",   "category": "pantry",    "price": 4.29,  "points_per_dollar": 1},
+    "DLI-HAM-HNY": {"name": "Honey Glazed Ham",             "category": "deli",      "price": 8.99,  "points_per_dollar": 2},
+    "PHR-ADV-200": {"name": "Ibuprofen 200mg 100ct",        "category": "pharmacy",  "price": 7.49,  "points_per_dollar": 1},
+    "FLR-MIX-SEA": {"name": "Seasonal Mix Bouquet",         "category": "floral",    "price": 12.99, "points_per_dollar": 3},
+    "FRZ-VEG-MIX": {"name": "Mixed Vegetables 12oz",        "category": "frozen",    "price": 2.79,  "points_per_dollar": 1},
+    "FRZ-EDM-SHL": {"name": "Edamame Shelled 12oz",         "category": "frozen",    "price": 3.99,  "points_per_dollar": 1},
 }
 
 ORDERS = {
+
+    # ── CUS-001 Maria Gonzalez (Gold · Brickell) — 3 orders ─────────────────────
     "ORD-2026-0001": {
         "id": "ORD-2026-0001", "customer_id": "CUS-001", "store_id": "store_FL01",
         "date": "2026-07-14", "status": "completed",
+        "note": "Weekly grocery run — breakfast and dinner staples",
         "items": [
-            {"sku": "PRD-BAN-ORG", "name": "Organic Bananas",        "qty": 2,  "unit_price": 0.69,  "subtotal": 1.38},
-            {"sku": "DRY-OAT-PLN", "name": "Oat Milk Barista 32oz",  "qty": 3,  "unit_price": 5.49,  "subtotal": 16.47},
-            {"sku": "BKR-BRD-SRD", "name": "Sourdough Loaf",         "qty": 1,  "unit_price": 4.99,  "subtotal": 4.99},
-            {"sku": "MET-SAL-ATL", "name": "Atlantic Salmon Fillet",  "qty": 1,  "unit_price": 13.99, "subtotal": 13.99},
+            {"sku": "DRY-EGG-LRG", "name": "Large Eggs Dozen",        "qty": 2,  "unit_price": 6.29,  "subtotal": 12.58,  "note": "2 dozen eggs"},
+            {"sku": "DRY-OAT-PLN", "name": "Horizon Oat Milk 32oz",   "qty": 1,  "unit_price": 5.49,  "subtotal": 5.49,   "note": "1 litre oat milk"},
+            {"sku": "BKR-BRD-SRD", "name": "Sourdough Loaf",          "qty": 1,  "unit_price": 4.99,  "subtotal": 4.99,   "note": "1 sourdough loaf"},
+            {"sku": "MET-SAL-ATL", "name": "Atlantic Salmon Fillet",   "qty": 1,  "unit_price": 13.99, "subtotal": 13.99,  "note": "1 lb salmon fillet"},
+            {"sku": "PRD-BAN-ORG", "name": "Organic Bananas",          "qty": 1,  "unit_price": 0.69,  "subtotal": 0.69,   "note": "1 bunch organic bananas"},
         ],
-        "subtotal": 36.83, "tax": 2.58, "total": 39.41,
-        "points_earned": 74, "points_redeemed": 0, "payment": "credit_card"
+        "subtotal": 37.74, "tax": 2.64, "total": 40.38,
+        "points_earned": 81, "points_redeemed": 0, "payment": "credit_card"
     },
     "ORD-2026-0002": {
         "id": "ORD-2026-0002", "customer_id": "CUS-001", "store_id": "store_FL01",
-        "date": "2026-07-07", "status": "completed",
+        "date": "2026-07-06", "status": "completed",
+        "note": "Sunday brunch pickup",
         "items": [
-            {"sku": "PRD-STR-ORG", "name": "Organic Strawberries",   "qty": 2,  "unit_price": 5.49,  "subtotal": 10.98},
-            {"sku": "DRY-EGG-LRG", "name": "Large Eggs Dozen",       "qty": 1,  "unit_price": 6.29,  "subtotal": 6.29},
-            {"sku": "DRY-CHZ-CHD", "name": "Sharp Cheddar Block",     "qty": 1,  "unit_price": 6.99,  "subtotal": 6.99},
-            {"sku": "BKR-CRW-BUT", "name": "Butter Croissant",        "qty": 4,  "unit_price": 2.29,  "subtotal": 9.16},
+            {"sku": "BKR-CRW-BUT", "name": "Butter Croissant",         "qty": 3,  "unit_price": 2.29,  "subtotal": 6.87,   "note": "3 butter croissants"},
+            {"sku": "PRD-STR-ORG", "name": "Organic Strawberries 1lb", "qty": 2,  "unit_price": 5.49,  "subtotal": 10.98,  "note": "2 pints organic strawberries"},
+            {"sku": "DRY-MLK-WHL", "name": "Whole Milk Gallon",        "qty": 1,  "unit_price": 4.59,  "subtotal": 4.59,   "note": "1 gallon whole milk"},
+            {"sku": "BEV-OJ-NAT",  "name": "Orange Juice 52oz",        "qty": 1,  "unit_price": 5.79,  "subtotal": 5.79,   "note": "1 bottle orange juice"},
         ],
-        "subtotal": 33.42, "tax": 2.34, "total": 35.76,
-        "points_earned": 67, "points_redeemed": 500, "payment": "publix_card"
+        "subtotal": 28.23, "tax": 1.98, "total": 30.21,
+        "points_earned": 57, "points_redeemed": 500, "payment": "publix_card"
     },
     "ORD-2026-0003": {
-        "id": "ORD-2026-0003", "customer_id": "CUS-002", "store_id": "store_GA01",
-        "date": "2026-07-13", "status": "completed",
+        "id": "ORD-2026-0003", "customer_id": "CUS-001", "store_id": "store_FL01",
+        "date": "2026-06-22", "status": "completed",
+        "note": "Weekend dinner party prep",
         "items": [
-            {"sku": "MET-STK-RIB", "name": "Ribeye Steak",           "qty": 2,  "unit_price": 16.99, "subtotal": 33.98},
-            {"sku": "DLI-TKY-RST", "name": "Oven Roasted Turkey",    "qty": 1,  "unit_price": 10.99, "subtotal": 10.99},
-            {"sku": "PNT-OLV-OIL", "name": "Extra Virgin Olive Oil", "qty": 2,  "unit_price": 8.99,  "subtotal": 17.98},
-            {"sku": "BEV-COF-GRD", "name": "Ground Coffee",          "qty": 2,  "unit_price": 8.99,  "subtotal": 17.98},
-            {"sku": "FLR-RSE-DZN", "name": "Red Rose Bouquet",       "qty": 1,  "unit_price": 19.99, "subtotal": 19.99},
+            {"sku": "MET-STK-RIB", "name": "Ribeye Steak",             "qty": 2,  "unit_price": 16.99, "subtotal": 33.98,  "note": "2 ribeye steaks"},
+            {"sku": "PRD-AVC-HAS", "name": "Hass Avocado",             "qty": 4,  "unit_price": 1.49,  "subtotal": 5.96,   "note": "4 ripe avocados"},
+            {"sku": "PNT-OLV-OIL", "name": "Extra Virgin Olive Oil",   "qty": 1,  "unit_price": 8.99,  "subtotal": 8.99,   "note": "1 bottle EVOO"},
+            {"sku": "DRY-CHZ-CHD", "name": "Sharp Cheddar Block 16oz", "qty": 1,  "unit_price": 6.99,  "subtotal": 6.99,   "note": "1 block sharp cheddar"},
+            {"sku": "FLR-RSE-DZN", "name": "Red Rose Bouquet Dozen",   "qty": 1,  "unit_price": 19.99, "subtotal": 19.99,  "note": "1 dozen red roses for table"},
         ],
-        "subtotal": 100.92, "tax": 7.06, "total": 107.98,
-        "points_earned": 303, "points_redeemed": 0, "payment": "credit_card"
+        "subtotal": 75.91, "tax": 5.31, "total": 81.22,
+        "points_earned": 183, "points_redeemed": 0, "payment": "credit_card"
     },
+
+    # ── CUS-002 James Whitfield (Platinum · Buckhead) — 3 orders ────────────────
     "ORD-2026-0004": {
         "id": "ORD-2026-0004", "customer_id": "CUS-002", "store_id": "store_GA01",
-        "date": "2026-07-05", "status": "completed",
+        "date": "2026-07-13", "status": "completed",
+        "note": "Weeknight deli and pantry restock",
         "items": [
-            {"sku": "MET-CHK-BRS", "name": "Chicken Breast",         "qty": 3,  "unit_price": 5.99,  "subtotal": 17.97},
-            {"sku": "MET-GBF-8020","name": "Ground Beef 80/20",       "qty": 2,  "unit_price": 6.99,  "subtotal": 13.98},
-            {"sku": "DLI-SUB-ITA", "name": "Italian Sub 12-inch",     "qty": 2,  "unit_price": 9.99,  "subtotal": 19.98},
-            {"sku": "BEV-OJ-NAT",  "name": "Orange Juice 52oz",       "qty": 2,  "unit_price": 5.79,  "subtotal": 11.58},
+            {"sku": "DLI-TKY-RST", "name": "Oven Roasted Turkey Breast","qty": 1, "unit_price": 10.99, "subtotal": 10.99,  "note": "1 lb roasted turkey, sliced"},
+            {"sku": "DLI-SUB-ITA", "name": "Italian Sub 12-inch",       "qty": 2,  "unit_price": 9.99,  "subtotal": 19.98,  "note": "2 Italian subs for lunch"},
+            {"sku": "BEV-COF-GRD", "name": "Ground Coffee Medium 12oz", "qty": 2,  "unit_price": 8.99,  "subtotal": 17.98,  "note": "2 bags ground coffee"},
+            {"sku": "PNT-RCE-JSM", "name": "Jasmine Rice 5lb",          "qty": 1,  "unit_price": 6.99,  "subtotal": 6.99,   "note": "1 bag jasmine rice"},
         ],
-        "subtotal": 63.51, "tax": 4.45, "total": 67.96,
-        "points_earned": 191, "points_redeemed": 1000, "payment": "publix_card"
+        "subtotal": 55.94, "tax": 3.92, "total": 59.86,
+        "points_earned": 240, "points_redeemed": 0, "payment": "credit_card"
     },
     "ORD-2026-0005": {
-        "id": "ORD-2026-0005", "customer_id": "CUS-003", "store_id": "store_FL02",
-        "date": "2026-07-12", "status": "completed",
+        "id": "ORD-2026-0005", "customer_id": "CUS-002", "store_id": "store_GA01",
+        "date": "2026-07-05", "status": "completed",
+        "note": "4th of July BBQ haul",
         "items": [
-            {"sku": "PRD-AVC-HAS", "name": "Hass Avocado",            "qty": 4,  "unit_price": 1.49,  "subtotal": 5.96},
-            {"sku": "DRY-OAT-PLN", "name": "Oat Milk Barista 32oz",   "qty": 2,  "unit_price": 5.49,  "subtotal": 10.98},
-            {"sku": "PRD-STR-ORG", "name": "Organic Strawberries",    "qty": 1,  "unit_price": 5.49,  "subtotal": 5.49},
-            {"sku": "PNT-PST-SPN", "name": "Spaghetti 16oz",          "qty": 3,  "unit_price": 1.89,  "subtotal": 5.67},
+            {"sku": "MET-GBF-8020","name": "Ground Beef 80/20 1lb",     "qty": 4,  "unit_price": 6.99,  "subtotal": 27.96,  "note": "4 lbs ground beef for burgers"},
+            {"sku": "MET-CHK-BRS", "name": "Chicken Breast Boneless",   "qty": 3,  "unit_price": 5.99,  "subtotal": 17.97,  "note": "3 lbs boneless chicken"},
+            {"sku": "BEV-OJ-NAT",  "name": "Orange Juice 52oz",         "qty": 2,  "unit_price": 5.79,  "subtotal": 11.58,  "note": "2 bottles OJ for mimosas"},
+            {"sku": "PNT-CAN-TOM", "name": "Diced Tomatoes 14.5oz",     "qty": 3,  "unit_price": 1.09,  "subtotal": 3.27,   "note": "3 cans diced tomatoes"},
+            {"sku": "FRZ-ICE-VNL", "name": "Vanilla Bean Ice Cream",    "qty": 2,  "unit_price": 5.99,  "subtotal": 11.98,  "note": "2 tubs vanilla ice cream"},
         ],
-        "subtotal": 28.10, "tax": 1.97, "total": 30.07,
-        "points_earned": 28, "points_redeemed": 0, "payment": "debit_card"
+        "subtotal": 72.76, "tax": 5.09, "total": 77.85,
+        "points_earned": 312, "points_redeemed": 1000, "payment": "publix_card"
     },
     "ORD-2026-0006": {
-        "id": "ORD-2026-0006", "customer_id": "CUS-004", "store_id": "store_FL03",
-        "date": "2026-07-11", "status": "completed",
+        "id": "ORD-2026-0006", "customer_id": "CUS-002", "store_id": "store_GA01",
+        "date": "2026-06-28", "status": "completed",
+        "note": "Premium seafood and flowers for anniversary dinner",
         "items": [
-            {"sku": "BKR-BRD-SRD", "name": "Sourdough Loaf",          "qty": 1,  "unit_price": 4.99,  "subtotal": 4.99},
-            {"sku": "BKR-CRW-BUT", "name": "Butter Croissant",         "qty": 6,  "unit_price": 2.29,  "subtotal": 13.74},
-            {"sku": "BEV-COF-GRD", "name": "Ground Coffee",            "qty": 1,  "unit_price": 8.99,  "subtotal": 8.99},
-            {"sku": "BEV-OJ-NAT",  "name": "Orange Juice 52oz",        "qty": 1,  "unit_price": 5.79,  "subtotal": 5.79},
+            {"sku": "MET-SAL-ATL", "name": "Atlantic Salmon Fillet",    "qty": 2,  "unit_price": 13.99, "subtotal": 27.98,  "note": "2 lbs fresh salmon fillet"},
+            {"sku": "MET-SHR-LRG", "name": "Large Shrimp 1lb Raw",      "qty": 1,  "unit_price": 11.99, "subtotal": 11.99,  "note": "1 lb raw large shrimp"},
+            {"sku": "PNT-PST-SPN", "name": "Spaghetti 16oz",            "qty": 2,  "unit_price": 1.89,  "subtotal": 3.78,   "note": "2 boxes spaghetti"},
+            {"sku": "FLR-RSE-DZN", "name": "Red Rose Bouquet Dozen",    "qty": 1,  "unit_price": 19.99, "subtotal": 19.99,  "note": "1 dozen red roses"},
+            {"sku": "BEV-COF-GRD", "name": "Ground Coffee Medium 12oz", "qty": 1,  "unit_price": 8.99,  "subtotal": 8.99,   "note": "1 bag specialty coffee"},
         ],
-        "subtotal": 33.51, "tax": 2.35, "total": 35.86,
-        "points_earned": 34, "points_redeemed": 0, "payment": "cash"
+        "subtotal": 72.73, "tax": 5.09, "total": 77.82,
+        "points_earned": 312, "points_redeemed": 0, "payment": "credit_card"
     },
+
+    # ── CUS-003 Priya Nair (Silver · Coral Gables) — 3 orders ───────────────────
     "ORD-2026-0007": {
-        "id": "ORD-2026-0007", "customer_id": "CUS-005", "store_id": "store_GA02",
-        "date": "2026-07-14", "status": "completed",
+        "id": "ORD-2026-0007", "customer_id": "CUS-003", "store_id": "store_FL02",
+        "date": "2026-07-12", "status": "completed",
+        "note": "Plant-based weekly shop",
         "items": [
-            {"sku": "MET-CHK-BRS", "name": "Chicken Breast",          "qty": 4,  "unit_price": 5.99,  "subtotal": 23.96},
-            {"sku": "MET-GBF-8020","name": "Ground Beef 80/20",        "qty": 3,  "unit_price": 6.99,  "subtotal": 20.97},
-            {"sku": "PNT-OLV-OIL", "name": "Extra Virgin Olive Oil",  "qty": 1,  "unit_price": 8.99,  "subtotal": 8.99},
-            {"sku": "PNT-PST-SPN", "name": "Spaghetti 16oz",          "qty": 4,  "unit_price": 1.89,  "subtotal": 7.56},
-            {"sku": "PHR-VIT-C",   "name": "Vitamin C 1000mg",         "qty": 1,  "unit_price": 9.99,  "subtotal": 9.99},
+            {"sku": "DRY-OAT-PLN", "name": "Horizon Oat Milk 32oz",    "qty": 2,  "unit_price": 5.49,  "subtotal": 10.98,  "note": "2 cartons oat milk"},
+            {"sku": "PRD-AVC-HAS", "name": "Hass Avocado",             "qty": 4,  "unit_price": 1.49,  "subtotal": 5.96,   "note": "4 ripe avocados"},
+            {"sku": "PRD-SPN-BYB", "name": "Organic Baby Spinach 5oz", "qty": 2,  "unit_price": 3.99,  "subtotal": 7.98,   "note": "2 bags baby spinach"},
+            {"sku": "PNT-PST-SPN", "name": "Spaghetti 16oz",           "qty": 3,  "unit_price": 1.89,  "subtotal": 5.67,   "note": "3 boxes spaghetti"},
         ],
-        "subtotal": 71.47, "tax": 5.00, "total": 76.47,
-        "points_earned": 214, "points_redeemed": 0, "payment": "credit_card"
+        "subtotal": 30.59, "tax": 2.14, "total": 32.73,
+        "points_earned": 41, "points_redeemed": 0, "payment": "debit_card"
     },
     "ORD-2026-0008": {
-        "id": "ORD-2026-0008", "customer_id": "CUS-006", "store_id": "store_FL04",
-        "date": "2026-07-10", "status": "completed",
+        "id": "ORD-2026-0008", "customer_id": "CUS-003", "store_id": "store_FL02",
+        "date": "2026-07-01", "status": "completed",
+        "note": "Farmers market-style produce run",
         "items": [
-            {"sku": "PRD-BAN-ORG", "name": "Organic Bananas",         "qty": 3,  "unit_price": 0.69,  "subtotal": 2.07},
-            {"sku": "PRD-APL-HON", "name": "Honeycrisp Apples",       "qty": 2,  "unit_price": 2.29,  "subtotal": 4.58},
-            {"sku": "PRD-AVC-HAS", "name": "Hass Avocado",            "qty": 6,  "unit_price": 1.49,  "subtotal": 8.94},
-            {"sku": "DRY-MLK-WHL", "name": "Whole Milk Gallon",       "qty": 1,  "unit_price": 4.59,  "subtotal": 4.59},
-            {"sku": "FRZ-ICE-VNL", "name": "Vanilla Bean Ice Cream",  "qty": 2,  "unit_price": 5.99,  "subtotal": 11.98},
+            {"sku": "PRD-STR-ORG", "name": "Organic Strawberries 1lb", "qty": 2,  "unit_price": 5.49,  "subtotal": 10.98,  "note": "2 pints organic strawberries"},
+            {"sku": "PRD-BRO-CRW", "name": "Broccoli Crown",           "qty": 2,  "unit_price": 2.49,  "subtotal": 4.98,   "note": "2 broccoli crowns"},
+            {"sku": "PRD-TOM-ROM", "name": "Roma Tomatoes",             "qty": 1,  "unit_price": 1.29,  "subtotal": 1.29,   "note": "1 lb Roma tomatoes"},
+            {"sku": "DRY-YGT-GRK", "name": "Greek Yogurt Plain 17.6oz","qty": 2,  "unit_price": 2.79,  "subtotal": 5.58,   "note": "2 tubs plain Greek yogurt"},
+            {"sku": "BEV-TEA-GRN", "name": "Green Tea 20-bag box",     "qty": 1,  "unit_price": 3.99,  "subtotal": 3.99,   "note": "1 box green tea bags"},
+        ],
+        "subtotal": 26.82, "tax": 1.88, "total": 28.70,
+        "points_earned": 36, "points_redeemed": 0, "payment": "credit_card"
+    },
+    "ORD-2026-0009": {
+        "id": "ORD-2026-0009", "customer_id": "CUS-003", "store_id": "store_FL02",
+        "date": "2026-06-18", "status": "completed",
+        "note": "Quick pantry top-up and dairy-free essentials",
+        "items": [
+            {"sku": "DRY-MLK-ALM", "name": "Almond Milk Unsweetened",  "qty": 2,  "unit_price": 4.29,  "subtotal": 8.58,   "note": "2 cartons unsweetened almond milk"},
+            {"sku": "PNT-OLV-OIL", "name": "Extra Virgin Olive Oil",   "qty": 1,  "unit_price": 8.99,  "subtotal": 8.99,   "note": "1 bottle olive oil"},
+            {"sku": "PNT-PNB-CRK", "name": "Creamy Peanut Butter 16oz","qty": 1,  "unit_price": 4.29,  "subtotal": 4.29,   "note": "1 jar creamy peanut butter"},
+            {"sku": "PRD-KAL-ORG", "name": "Organic Kale Bunch",       "qty": 2,  "unit_price": 2.99,  "subtotal": 5.98,   "note": "2 bunches organic kale"},
+        ],
+        "subtotal": 27.84, "tax": 1.95, "total": 29.79,
+        "points_earned": 35, "points_redeemed": 250, "payment": "debit_card"
+    },
+
+    # ── CUS-004 Derek Fontaine (Green · Wynwood) — 2 orders ─────────────────────
+    "ORD-2026-0010": {
+        "id": "ORD-2026-0010", "customer_id": "CUS-004", "store_id": "store_FL03",
+        "date": "2026-07-11", "status": "completed",
+        "note": "Morning bakery and coffee run",
+        "items": [
+            {"sku": "BKR-MFN-BLB", "name": "Blueberry Muffin Jumbo",   "qty": 3,  "unit_price": 2.79,  "subtotal": 8.37,   "note": "3 jumbo blueberry donuts / muffins"},
+            {"sku": "BKR-BRD-SRD", "name": "Sourdough Loaf",           "qty": 1,  "unit_price": 4.99,  "subtotal": 4.99,   "note": "1 sourdough loaf"},
+            {"sku": "BEV-COF-GRD", "name": "Ground Coffee Medium 12oz", "qty": 1,  "unit_price": 8.99,  "subtotal": 8.99,   "note": "1 bag medium roast ground coffee"},
+            {"sku": "BEV-OJ-NAT",  "name": "Orange Juice 52oz",         "qty": 1,  "unit_price": 5.79,  "subtotal": 5.79,   "note": "1 large OJ"},
+        ],
+        "subtotal": 28.14, "tax": 1.97, "total": 30.11,
+        "points_earned": 30, "points_redeemed": 0, "payment": "cash"
+    },
+    "ORD-2026-0011": {
+        "id": "ORD-2026-0011", "customer_id": "CUS-004", "store_id": "store_FL03",
+        "date": "2026-06-29", "status": "completed",
+        "note": "Weekend treat and beverage stock-up",
+        "items": [
+            {"sku": "BKR-CRW-BUT", "name": "Butter Croissant",          "qty": 4,  "unit_price": 2.29,  "subtotal": 9.16,   "note": "4 fresh butter croissants"},
+            {"sku": "FRZ-ICE-VNL", "name": "Vanilla Bean Ice Cream",    "qty": 1,  "unit_price": 5.99,  "subtotal": 5.99,   "note": "1 tub vanilla ice cream"},
+            {"sku": "BEV-WTR-SPK", "name": "Sparkling Water 12pk",      "qty": 1,  "unit_price": 7.49,  "subtotal": 7.49,   "note": "1 case sparkling water"},
+            {"sku": "BEV-JUC-APL", "name": "Apple Juice 64oz",          "qty": 2,  "unit_price": 4.49,  "subtotal": 8.98,   "note": "2 bottles apple juice"},
+        ],
+        "subtotal": 31.62, "tax": 2.21, "total": 33.83,
+        "points_earned": 34, "points_redeemed": 0, "payment": "debit_card"
+    },
+
+    # ── CUS-005 Angela Torres (Gold · Midtown Atlanta) — 3 orders ───────────────
+    "ORD-2026-0012": {
+        "id": "ORD-2026-0012", "customer_id": "CUS-005", "store_id": "store_GA02",
+        "date": "2026-07-14", "status": "completed",
+        "note": "Weekly protein and pantry restock",
+        "items": [
+            {"sku": "MET-CHK-BRS", "name": "Chicken Breast Boneless",   "qty": 4,  "unit_price": 5.99,  "subtotal": 23.96,  "note": "4 lbs boneless chicken breast"},
+            {"sku": "MET-GBF-8020","name": "Ground Beef 80/20 1lb",     "qty": 3,  "unit_price": 6.99,  "subtotal": 20.97,  "note": "3 lbs ground beef"},
+            {"sku": "PNT-OLV-OIL", "name": "Extra Virgin Olive Oil",    "qty": 1,  "unit_price": 8.99,  "subtotal": 8.99,   "note": "1 bottle EVOO"},
+            {"sku": "PNT-PST-SPN", "name": "Spaghetti 16oz",            "qty": 4,  "unit_price": 1.89,  "subtotal": 7.56,   "note": "4 boxes spaghetti"},
+            {"sku": "PHR-VIT-C",   "name": "Vitamin C 1000mg 100ct",    "qty": 1,  "unit_price": 9.99,  "subtotal": 9.99,   "note": "1 bottle Vitamin C supplements"},
+        ],
+        "subtotal": 71.47, "tax": 5.00, "total": 76.47,
+        "points_earned": 172, "points_redeemed": 0, "payment": "credit_card"
+    },
+    "ORD-2026-0013": {
+        "id": "ORD-2026-0013", "customer_id": "CUS-005", "store_id": "store_GA02",
+        "date": "2026-07-03", "status": "completed",
+        "note": "Holiday weekend grill prep",
+        "items": [
+            {"sku": "MET-STK-RIB", "name": "Ribeye Steak",              "qty": 2,  "unit_price": 16.99, "subtotal": 33.98,  "note": "2 thick-cut ribeyes"},
+            {"sku": "MET-SHR-LRG", "name": "Large Shrimp 1lb Raw",      "qty": 2,  "unit_price": 11.99, "subtotal": 23.98,  "note": "2 lbs raw shrimp for skewers"},
+            {"sku": "PNT-RCE-JSM", "name": "Jasmine Rice 5lb",          "qty": 1,  "unit_price": 6.99,  "subtotal": 6.99,   "note": "1 bag jasmine rice"},
+            {"sku": "PNT-CAN-TOM", "name": "Diced Tomatoes 14.5oz",     "qty": 2,  "unit_price": 1.09,  "subtotal": 2.18,   "note": "2 cans tomatoes for salsa"},
+        ],
+        "subtotal": 67.13, "tax": 4.70, "total": 71.83,
+        "points_earned": 162, "points_redeemed": 500, "payment": "publix_card"
+    },
+    "ORD-2026-0014": {
+        "id": "ORD-2026-0014", "customer_id": "CUS-005", "store_id": "store_GA02",
+        "date": "2026-06-20", "status": "completed",
+        "note": "Deli lunch order and beverage refill",
+        "items": [
+            {"sku": "DLI-HAM-HNY", "name": "Honey Glazed Ham",          "qty": 1,  "unit_price": 8.99,  "subtotal": 8.99,   "note": "1 lb honey ham, sliced thin"},
+            {"sku": "DLI-TKY-RST", "name": "Oven Roasted Turkey Breast","qty": 1,  "unit_price": 10.99, "subtotal": 10.99,  "note": "1 lb turkey breast"},
+            {"sku": "BEV-WTR-SPK", "name": "Sparkling Water 12pk",      "qty": 2,  "unit_price": 7.49,  "subtotal": 14.98,  "note": "2 cases sparkling water"},
+            {"sku": "BEV-JUC-APL", "name": "Apple Juice 64oz",          "qty": 1,  "unit_price": 4.49,  "subtotal": 4.49,   "note": "1 large apple juice"},
+            {"sku": "DRY-EGG-LRG", "name": "Large Eggs Dozen",          "qty": 1,  "unit_price": 6.29,  "subtotal": 6.29,   "note": "1 dozen eggs"},
+        ],
+        "subtotal": 45.74, "tax": 3.20, "total": 48.94,
+        "points_earned": 103, "points_redeemed": 0, "payment": "credit_card"
+    },
+
+    # ── CUS-006 Robert Chen (Silver · Coconut Grove) — 3 orders ─────────────────
+    "ORD-2026-0015": {
+        "id": "ORD-2026-0015", "customer_id": "CUS-006", "store_id": "store_FL04",
+        "date": "2026-07-10", "status": "completed",
+        "note": "Organic produce and dairy essentials",
+        "items": [
+            {"sku": "PRD-BAN-ORG", "name": "Organic Bananas",           "qty": 3,  "unit_price": 0.69,  "subtotal": 2.07,   "note": "3 lbs organic bananas"},
+            {"sku": "PRD-APL-HON", "name": "Honeycrisp Apples",         "qty": 2,  "unit_price": 2.29,  "subtotal": 4.58,   "note": "2 lbs Honeycrisp apples"},
+            {"sku": "PRD-AVC-HAS", "name": "Hass Avocado",              "qty": 6,  "unit_price": 1.49,  "subtotal": 8.94,   "note": "6 ripe avocados"},
+            {"sku": "DRY-MLK-WHL", "name": "Whole Milk Gallon",         "qty": 1,  "unit_price": 4.59,  "subtotal": 4.59,   "note": "1 gallon Horizon whole milk"},
+            {"sku": "FRZ-ICE-VNL", "name": "Vanilla Bean Ice Cream",    "qty": 2,  "unit_price": 5.99,  "subtotal": 11.98,  "note": "2 tubs vanilla ice cream"},
         ],
         "subtotal": 32.16, "tax": 2.25, "total": 34.41,
-        "points_earned": 32, "points_redeemed": 0, "payment": "publix_card"
+        "points_earned": 54, "points_redeemed": 0, "payment": "publix_card"
     },
+    "ORD-2026-0016": {
+        "id": "ORD-2026-0016", "customer_id": "CUS-006", "store_id": "store_FL04",
+        "date": "2026-07-02", "status": "completed",
+        "note": "Midweek fruit and breakfast top-up",
+        "items": [
+            {"sku": "PRD-STR-ORG", "name": "Organic Strawberries 1lb", "qty": 2,  "unit_price": 5.49,  "subtotal": 10.98,  "note": "2 pints fresh strawberries"},
+            {"sku": "DRY-EGG-LRG", "name": "Large Eggs Dozen",         "qty": 2,  "unit_price": 6.29,  "subtotal": 12.58,  "note": "2 boxes of eggs"},
+            {"sku": "BKR-BRD-WHT", "name": "Whole Wheat Bread",        "qty": 1,  "unit_price": 3.49,  "subtotal": 3.49,   "note": "1 loaf whole wheat bread"},
+            {"sku": "DRY-YGT-GRK", "name": "Greek Yogurt Plain 17.6oz","qty": 2,  "unit_price": 2.79,  "subtotal": 5.58,   "note": "2 tubs plain Greek yogurt"},
+        ],
+        "subtotal": 32.63, "tax": 2.28, "total": 34.91,
+        "points_earned": 55, "points_redeemed": 0, "payment": "credit_card"
+    },
+    "ORD-2026-0017": {
+        "id": "ORD-2026-0017", "customer_id": "CUS-006", "store_id": "store_FL04",
+        "date": "2026-06-14", "status": "completed",
+        "note": "Supplement, health, and pantry restock",
+        "items": [
+            {"sku": "PHR-VIT-C",   "name": "Vitamin C 1000mg 100ct",   "qty": 1,  "unit_price": 9.99,  "subtotal": 9.99,   "note": "1 bottle Vitamin C tablets"},
+            {"sku": "PHR-ADV-200", "name": "Ibuprofen 200mg 100ct",     "qty": 1,  "unit_price": 7.49,  "subtotal": 7.49,   "note": "1 bottle ibuprofen"},
+            {"sku": "PNT-RCE-JSM", "name": "Jasmine Rice 5lb",          "qty": 1,  "unit_price": 6.99,  "subtotal": 6.99,   "note": "1 bag jasmine rice"},
+            {"sku": "PNT-PNB-CRK", "name": "Creamy Peanut Butter 16oz","qty": 2,  "unit_price": 4.29,  "subtotal": 8.58,   "note": "2 jars creamy peanut butter"},
+            {"sku": "PRD-KAL-ORG", "name": "Organic Kale Bunch",        "qty": 1,  "unit_price": 2.99,  "subtotal": 2.99,   "note": "1 bunch organic kale"},
+        ],
+        "subtotal": 36.04, "tax": 2.52, "total": 38.56,
+        "points_earned": 61, "points_redeemed": 0, "payment": "publix_card"
+    },
+
 }
 
 POINTS_TIERS = {
